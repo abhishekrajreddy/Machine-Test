@@ -1,24 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import Navbar from './Components/Scripts/Navbar';
+import Home from './Components/Scripts/Home';
+import Task from './Components/Scripts/Task';
+import {BrowserRouter as Router,Route, Switch, withRouter} from 'react-router-dom';
+import Login from './Components/Scripts/Login';
+import User from './Components/Scripts/User';
+import {Provider} from 'react-redux'
+import store from './store';
+import PrivateRoute from "./Components/Reuseable/PrivateRoute";
+import PublicRoute from "./Components/Reuseable/PublicRoute";
 
 function App() {
+
+  const Main=withRouter(({location})=>{
+    return(
+      <div>
+      { location.pathname !== '/login' && <Navbar/>}
+      <Switch>
+      <PublicRoute exact path='/login' component={Login} />
+      <PrivateRoute exact path='/user' component={User} />
+      <PrivateRoute exact path='/' component={Home} />
+      <PrivateRoute exact path='/task' component={Task} />
+      </Switch>
+      </div>
+    )
+  })
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <Main/>
+      </Router>
+    </Provider>
   );
 }
 
