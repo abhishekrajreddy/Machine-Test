@@ -18,6 +18,8 @@ class Login extends Component {
         this.setState({[e.target.name]:e.target.value})
     }
 
+    
+
     validate=()=>{
         let username_error='';
         let password_error='';
@@ -33,6 +35,9 @@ class Login extends Component {
         }
         return true;
     }
+    // componentWillMount(){
+    //     this.props.onLogin()
+    // }
     onSubmit=()=>{
         // console.log(this.state)
         const {username,password} =this.state;
@@ -41,9 +46,9 @@ class Login extends Component {
         if(isValid){
             this.props.onLogin(newData,this.props.history)
         }
-        
-        
     }
+
+
     render() {
         const {username,password,username_error,password_error} =this.state;
         return (

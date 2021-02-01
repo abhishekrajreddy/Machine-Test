@@ -20,15 +20,22 @@ export const onAddingTask=(data,history)=>{
 
 export const onLogin=(newData,history)=>{
 return(dispatch)=>{
-    const data=JSON.parse(localStorage.getItem("user"))
-    if(newData.password === data.password){
-              dispatch(onLoginSuccess(newData))
-               history.push('/')
-               console.log(`Welcome ${newData.username}`)
-    }
-    else{
-        console.log('INVALID LOGIN DATA!')
-    }
+    const data=localStorage.getItem("user")
+    const dataUpdate=JSON.parse(localStorage.getItem("user"))
+    if(data === null){
+        const token=JSON.stringify(newData)
+        localStorage.setItem('user',token)
+        const data=JSON.parse(localStorage.getItem("user"))
+                if(newData.password === data.password){
+                    dispatch(onLoginSuccess(newData))
+                    history.push('/')
+                    console.log(`Welcome ${newData.username}`)
+                }
+    }else if(newData.password === dataUpdate.password){
+        dispatch(onLoginSuccess(newData))
+        history.push('/')
+        console.log(`Welcome ${newData.username}`)
+        }   
 }
 }
 
@@ -38,6 +45,8 @@ export const onSavePassword=(newData,history)=>{
             localStorage.setItem("user", JSON.stringify(newData));
             dispatch(onSavePasswordSuccess(newData))
             history.push('/')
+        }else{
+            console.log('Cannot Change Password')
         }
     }
     }

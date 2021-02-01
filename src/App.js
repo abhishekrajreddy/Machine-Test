@@ -9,8 +9,13 @@ import {Provider} from 'react-redux'
 import store from './store';
 import PrivateRoute from "./Components/Reuseable/PrivateRoute";
 import PublicRoute from "./Components/Reuseable/PublicRoute";
+import {onLoginSuccess} from './Components/Redux/Action'
 
 function App() {
+  const data = JSON.parse(localStorage.getItem('user'));
+  if(data){
+    store.dispatch(onLoginSuccess(data))
+  }
 
   const Main=withRouter(({location})=>{
     return(
